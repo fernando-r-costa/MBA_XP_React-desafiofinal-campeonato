@@ -1,5 +1,11 @@
+import Header from "./Header/page";
+import Main from "./Main/page";
+
 export default function Home() {
   return (
-    <div>teste</div>
+    <div>
+      <Header />
+      <Main />
+    </div>
   )
 }
