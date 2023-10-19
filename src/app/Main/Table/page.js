@@ -1,3 +1,4 @@
+'use client'
 import { apiGetAllData } from "@/service/apiService"
 import { useEffect, useState } from "react"
 
@@ -17,17 +18,11 @@ export default function Table({ anoEscolhido }) {
             newData[visitante] = pontuacao_geral_visitante;
             newData[mandante] = pontuacao_geral_mandante;
         }
-        // console.log('Novo objeto:', newData);
 
-        const sortedArray = Object.entries(newData)
+        sortedData = Object.entries(newData)
             .sort((a, b) => b[1].total_pontos - a[1].total_pontos)
             .map(([key, value]) => ({ [key]: value }));
-
-        sortedData = Object.assign({}, ...sortedArray);
-
     }
-
-    console.log(sortedData);
 
     useEffect(() => {
         async function getAllData() {
@@ -64,31 +59,19 @@ export default function Table({ anoEscolhido }) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="odd:bg-gray-300 even:bg-gray-100">
-                        <td>01</td>
-                        <td>Img</td>
-                        <td className="text-left px-5">Cruzeiro</td>
-                        <td>50</td>
-                        <td>10</td>
-                        <td>5</td>
-                        <td>5</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>10</td>
-                    </tr>
-                    {sortedData.map((time) => {
+                    {sortedData.map((item, index) => {
                         return (
                             <tr className="odd:bg-gray-300 even:bg-gray-100">
-                                <td>01</td>
-                                <td>Img</td>
-                                <td className="text-left px-5">Cruzeiro</td>
-                                <td>50</td>
-                                <td>10</td>
-                                <td>5</td>
-                                <td>5</td>
-                                <td>20</td>
-                                <td>10</td>
-                                <td>10</td>
+                                <td>{(index + 1).toString().padStart(2, '0')}</td>
+                                <td><img src={`/img/${(Object.keys(item)[0])}.png`} alt={Object.keys(item)[0]} /></td>
+                                <td className="text-left px-5">{Object.keys(item)[0]}</td>
+                                <td>{Object.values(item)[0].total_pontos}</td>
+                                <td>{Object.values(item)[0].total_vitorias}</td>
+                                <td>{Object.values(item)[0].total_empates}</td>
+                                <td>{Object.values(item)[0].total_derrotas}</td>
+                                <td>{Object.values(item)[0].total_gols_marcados}</td>
+                                <td>{Object.values(item)[0].total_gols_sofridos}</td>
+                                <td>{Object.values(item)[0].total_gols_marcados - Object.values(item)[0].total_gols_sofridos}</td>
                             </tr>
                         )
                     })}
